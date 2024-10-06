@@ -111,7 +111,11 @@ export default function UserLocationManager() {
         user.details.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return (
+        <div className="flex justify-center items-center h-screen">
+            <span className="animate-spin text-9xl">💩</span>
+        </div>
+    )
     if (error) return <div>{error}</div>
 
     return (
