@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+システムの目的
 
-## Getting Started
+簡単な在室管理を行い、ユーザーの居場所を即時に把握できるアプリケーション
 
-First, run the development server:
+主要な機能要件
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+ユーザー一覧表示機能
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2列の表でユーザー情報を表示
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1列目：名前
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2列目：居場所
 
-## Learn More
+3列目:詳細
 
-To learn more about Next.js, take a look at the following resources:
+居場所変更入力機能
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+各ユーザーの居場所を変更するための入力欄を設置
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+入力された居場所情報を即時に表へ反映
 
-## Deploy on Vercel
+データ保存機能
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+居場所の変更情報を保存し、アプリケーション再起動後もデータを保持
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ユーザー追加・削除機能
+
+新規ユーザーの追加や既存ユーザーの削除が可能
+
+ユーザー検索機能
+
+名前や居場所でユーザーを検索・フィルタリング可能
+
+特徴
+
+シンプルで直感的なインターフェース
+
+誰でも簡単に操作できるデザイン
+
+リアルタイム更新
+
+居場所の変更が即座に反映され、最新情報を確認可能
+
+軽量で高速な動作
+
+無駄のない機能でアプリケーションの軽量化を実現
+
+場所を追加するときは自由記述欄以外にデフォルトの選択肢として自宅、出張などをプルダウンメニューで表せられるようにしたい
+
+jsonをサーバーに保存してデータを保持する
