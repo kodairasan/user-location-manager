@@ -14,7 +14,7 @@ type User = {
     details: string
 }
 
-const defaultLocations = ['自宅', '出張', 'オフィス', '休暇', 'その他']
+const defaultLocations = ['407', '408', '授業', 'リフレッシュルーム', '外出', '帰宅', 'その他']
 
 export default function UserLocationManager() {
     const [users, setUsers] = useState<User[]>([])
