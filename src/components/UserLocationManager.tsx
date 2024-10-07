@@ -37,8 +37,9 @@ export default function UserLocationManager() {
             }
             const data = await response.json()
             setUsers(data)
-        } catch (error) {
-            setError('ユーザーの読み込みに失敗しました。もう一度お試しください。')
+        } catch (error: any) {
+            console.error("fetchUsers error:", error);
+            setError('ユーザーの読み込みに失敗しました。もう一度お試しください。');
         } finally {
             setIsLoading(false)
         }
@@ -60,8 +61,9 @@ export default function UserLocationManager() {
                 const addedUser = await response.json()
                 setUsers([...users, addedUser])
                 setNewUser({ name: '', location: '', details: '' })
-            } catch (error) {
-                setError('ユーザーの追加に失敗しました。もう一度お試しください。')
+            } catch (error: any) {
+                console.error("addUser error:", error);
+                setError('ユーザーの追加に失敗しました。もう一度お試しください。');
             }
         }
     }
@@ -89,8 +91,9 @@ export default function UserLocationManager() {
                 throw new Error('Failed to update user')
             }
             setChangedUsers(changedUsers.filter(userId => userId !== id))
-        } catch (error) {
-            setError('ユーザーの更新に失敗しました。もう一度お試しください。')
+        } catch (error: any) {
+            console.error("saveUser error:", error);
+            setError('ユーザーの更新に失敗しました。もう一度お試しください。');
         }
     }
 
@@ -108,8 +111,9 @@ export default function UserLocationManager() {
             }
             setUsers(users.filter(user => user.id !== id))
             setChangedUsers(changedUsers.filter(userId => userId !== id))
-        } catch (error) {
-            setError('ユーザーの削除に失敗しました。もう一度お試しください。')
+        } catch (error: any) {
+            console.error("deleteUser error:", error);
+            setError('ユーザーの削除に失敗しました。もう一度お試しください。');
         }
     }
 
