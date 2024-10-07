@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import socket from '@/lib/socket'
+import UpdateNotification from './UpdateNotification'
 
 type User = {
     id: string
@@ -26,6 +28,12 @@ export default function UserLocationManager() {
 
     useEffect(() => {
         fetchUsers()
+
+        socket.on('dataUpdated', fetchUsers)
+
+        return () => {
+            socket.off('dataUpdated')
+        }
     }, [])
 
     const fetchUsers = async () => {
@@ -132,6 +140,7 @@ export default function UserLocationManager() {
 
     return (
         <div className="container mx-auto p-4">
+            <UpdateNotification />
             <h1 className="text-2xl font-bold mb-4">在室管理システム</h1>
 
             <Input

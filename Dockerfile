@@ -1,4 +1,3 @@
-
 FROM node:18-alpine 
 
 # 作業ディレクトリを設定
@@ -16,8 +15,8 @@ COPY . .
 # プロダクションビルドを実行
 RUN npm run build
 
-# ポート 3000 を公開
-EXPOSE 3000
+# ポート 3000 と 8080 を公開
+EXPOSE 3000 8080
 
-# アプリケーションを起動
-CMD ["npm", "run", "start"]
+# アプリケーションとWebSocketサーバーを起動
+CMD ["sh", "-c", "npm run start & node websocket-server.js"]

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs/promises'
 import path from 'path'
+import { io } from 'socket.io-client'
 
 type User = {
     id: string
@@ -10,6 +11,7 @@ type User = {
 }
 
 const dataFilePath = path.join(process.cwd(), 'data', 'users.json')
+const socket = io('http://localhost:8080')
 
 async function readUsersFile(): Promise<User[]> {
     try {
@@ -24,6 +26,7 @@ async function readUsersFile(): Promise<User[]> {
 async function writeUsersFile(users: User[]): Promise<void> {
     try {
         await fs.writeFile(dataFilePath, JSON.stringify(users, null, 2))
+        socket.emit('dataUpdated')
     } catch (error) {
         console.error('Error writing users file:', error)
     }
