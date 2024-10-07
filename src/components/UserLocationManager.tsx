@@ -22,6 +22,7 @@ export default function UserLocationManager() {
     const [searchTerm, setSearchTerm] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const [changedUsers, setChangedUsers] = useState<string[]>([])
 
     useEffect(() => {
         fetchUsers()
@@ -37,7 +38,7 @@ export default function UserLocationManager() {
             const data = await response.json()
             setUsers(data)
         } catch (error) {
-            setError('Failed to load users. Please try again.')
+            setError('ユーザーの読み込みに失敗しました。もう一度お試しください。')
         } finally {
             setIsLoading(false)
         }
@@ -60,30 +61,36 @@ export default function UserLocationManager() {
                 setUsers([...users, addedUser])
                 setNewUser({ name: '', location: '', details: '' })
             } catch (error) {
-                setError('Failed to add user. Please try again.')
+                setError('ユーザーの追加に失敗しました。もう一度お試しください。')
             }
         }
     }
 
-    const updateUser = async (id: string, field: string, value: string) => {
+    const updateUser = (id: string, field: string, value: string) => {
+        setUsers(users.map(user => user.id === id ? { ...user, [field]: value } : user))
+        if (!changedUsers.includes(id)) {
+            setChangedUsers([...changedUsers, id])
+        }
+    }
+
+    const saveUser = async (id: string) => {
         try {
             const userToUpdate = users.find(user => user.id === id)
             if (!userToUpdate) return
 
-            const updatedUser = { ...userToUpdate, [field]: value }
             const response = await fetch('/api/users', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(updatedUser),
+                body: JSON.stringify(userToUpdate),
             })
             if (!response.ok) {
                 throw new Error('Failed to update user')
             }
-            setUsers(users.map(user => user.id === id ? updatedUser : user))
+            setChangedUsers(changedUsers.filter(userId => userId !== id))
         } catch (error) {
-            setError('Failed to update user. Please try again.')
+            setError('ユーザーの更新に失敗しました。もう一度お試しください。')
         }
     }
 
@@ -100,8 +107,9 @@ export default function UserLocationManager() {
                 throw new Error('Failed to delete user')
             }
             setUsers(users.filter(user => user.id !== id))
+            setChangedUsers(changedUsers.filter(userId => userId !== id))
         } catch (error) {
-            setError('Failed to delete user. Please try again.')
+            setError('ユーザーの削除に失敗しました。もう一度お試しください。')
         }
     }
 
@@ -196,7 +204,15 @@ export default function UserLocationManager() {
                                 />
                             </TableCell>
                             <TableCell>
-                                <Button variant="destructive" onClick={() => deleteUser(user.id)}>削除</Button>
+                                <div className="flex space-x-2">
+                                    <Button
+                                        onClick={() => saveUser(user.id)}
+                                        disabled={!changedUsers.includes(user.id)}
+                                    >
+                                        保存
+                                    </Button>
+                                    <Button variant="destructive" onClick={() => deleteUser(user.id)}>削除</Button>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
